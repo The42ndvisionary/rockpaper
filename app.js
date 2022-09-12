@@ -45,12 +45,12 @@ for (let i = 0; i < 5; i++){
     const computerselection = computerplay();
 
 const playselection = prompt("type rock paper or scissor").toLowerCase();
-    playround(playselection,computerselection);
+    console.log(playround(playselection,computerselection));
 }
 if (playerscore > compscore) {
     return "you beat skynet yay"
 }
-else if (playerscore > compscore){
+else if (playerscore > compscore) {
     return "terminator wins"
 }
 }
