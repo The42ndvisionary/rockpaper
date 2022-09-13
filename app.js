@@ -1,5 +1,6 @@
 let playerscore =0
 let compscore = 0
+//score started from 0 
 
 const computerplay = () => {
 const arr0fChoices = ["rock","paper","scissor"]
@@ -7,15 +8,14 @@ const randomnum =  Math.floor(Math.random() * 3)
 const compchoice = (arr0fChoices[randomnum])
 return compchoice
 }
+//random computer choice from array
 
 const playround = (playerselection,computerselection) => {
     if (playerselection === computerselection) {
         return "you both tied, both chose " + playerselection
     }
-    
     else if (playerselection === "rock" && computerselection === "paper"){
-        return compscore++,"player lost comp chose paper"
-         
+        return compscore++,"player lost comp chose paper"  
     }
     else if  (playerselection === "paper" && computerselection === "scissor"){
         return  "player lost comp chose scissor",compscore++
@@ -36,9 +36,7 @@ const playround = (playerselection,computerselection) => {
                         "player won comp chose paper"
                    }
 }
-
-
-
+//logic comparison of computer selection and playerselection and score tally increase by 1 for each round won by wither party
 
 const game = () => {
 for (let i = 0; i < 5; i++){
@@ -54,5 +52,7 @@ else if (playerscore > compscore) {
     return "terminator wins"
 }
 }
+//loop for 5 rounds loop includes computer choices to have 5 different choices for 5 rounds and same for player choices + score comparison to show if player or computer won over 5 rounds
 
 console.log(game());
+//calling the game function
