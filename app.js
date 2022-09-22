@@ -1,58 +1,86 @@
+//score started from 0 
 let playerscore =0
 let compscore = 0
-//score started from 0 
+const rockbutton = document.querySelector(".rock")
+const paperbutton = document.querySelector(".paper")
+const scissorbutton =document.querySelector(".scissor")
+const outcomediv =document.querySelector(".outcome")
 
+//logic comparison of computer selection and playerselection and score tally increase by 1 for each round won by wither party
+const playround = (playerselection,computerselection) => {
+    if (playerselection === computerselection) {
+        const p = document.createElement("p")
+        p.innerText= "you both tied, both chose the same thing" 
+        outcomediv.appendChild(p)
+    }
+    else if (playerselection === "rock" && computerselection === "paper"){
+       compscore++
+        const p = document.createElement("p");
+        p.innerText= "player lost comp chose paper" 
+        outcomediv.appendChild(p) 
+    }
+    else if  (playerselection === "paper" && computerselection === "scissor"){
+          compscore++
+        const p = document.createElement("p")
+        p.innerText= "player lost comp chose scissor"
+        outcomediv.appendChild(p)
+    }
+        else if  (playerselection === "scissor" && computerselection === "rock"){
+             compscore++
+             const p = document.createElement("p")
+            p.innerText=  "player lost comp chose rock"
+            outcomediv.appendChild(p)
+        }
+            else if  (playerselection === "paper" && computerselection === "rock" ){
+                 playerscore++ 
+                 const p = document.createElement("p")
+                p.innerText= "player won comp chose rock"
+                outcomediv.appendChild(p)
+            }
+                else if  (playerselection === "rock" && computerselection === "scissor"){
+                    playerscore++ 
+                    const p = document.createElement("p")
+                    p.innerText= "player won comp chose scissor"
+                    outcomediv.appendChild(p)
+                }
+                    else if  (playerselection === "scissor" && computerselection === "paper"){
+                           playerscore++ 
+                           const p = document.createElement("p")
+                        p.innerText=  "player won comp chose paper"
+                        outcomediv.appendChild(p)
+                   }
+}
+// computer choice generated from random array of rock paper and scissor
 const computerplay = () => {
 const arr0fChoices = ["rock","paper","scissor"]
 const randomnum =  Math.floor(Math.random() * 3)
 const compchoice = (arr0fChoices[randomnum])
 return compchoice
 }
-//random computer choice from array
 
-const playround = (playerselection,computerselection) => {
-    if (playerselection === computerselection) {
-        return "you both tied, both chose " + playerselection
-    }
-    else if (playerselection === "rock" && computerselection === "paper"){
-        return compscore++,"player lost comp chose paper"  
-    }
-    else if  (playerselection === "paper" && computerselection === "scissor"){
-        return  "player lost comp chose scissor",compscore++
-    }
-        else if  (playerselection === "scissor" && computerselection === "rock"){
-            return compscore++, "player lost comp chose rock"
-        }
-            else if  (playerselection === "scissor" && computerselection === "paper"){
-                return playerscore++ ,
-                "player won comp chose paper"
-            }
-                else if  (playerselection === "rock" && computerselection === "scissor"){
-                    return playerscore++ ,
-                    "player won comp chose scissor"
-                }
-                    else if  (playerselection === "scissor" && computerselection === "paper"){
-                        return   playerscore++ ,
-                        "player won comp chose paper"
-                   }
-}
-//logic comparison of computer selection and playerselection and score tally increase by 1 for each round won by wither party
 
-const game = () => {
-for (let i = 0; i < 5; i++){
+//Each button is playing a round when the button is pressed
+rockbutton.addEventListener("click", () => {
+const computerselection = computerplay();
+const playerselection =  "rock";
+playround(playerselection,computerselection);
+console.log(playround(playerselection,computerselection));
+})
+
+paperbutton.addEventListener("click", () => {
     const computerselection = computerplay();
+    const playerselection =  "paper";
+    playround(playerselection,computerselection);
+    console.log(playround(playerselection,computerselection));
+    })
 
-const playselection = prompt("type rock paper or scissor").toLowerCase();
-    console.log(playround(playselection,computerselection));
-}
-if (playerscore > compscore) {
-    return "you beat skynet yay"
-}
-else if (playerscore > compscore) {
-    return "terminator wins"
-}
-}
-//loop for 5 rounds loop includes computer choices to have 5 different choices for 5 rounds and same for player choices + score comparison to show if player or computer won over 5 rounds
+    scissorbutton.addEventListener("click", () => {
+        const computerselection = computerplay();
+        const playerselection =  "scissor";
+        playround(computerselection,playerselection);
+        console.log(playround(playerselection,computerselection));
+        })
 
-console.log(game());
-//calling the game function
+
+
+        //all dom manipulation for dynamic results
