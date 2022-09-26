@@ -1,86 +1,140 @@
-//score started from 0 
-let playerscore =0
-let compscore = 0
-const rockbutton = document.querySelector(".rock")
-const paperbutton = document.querySelector(".paper")
-const scissorbutton =document.querySelector(".scissor")
-const outcomediv =document.querySelector(".outcome")
-
-//logic comparison of computer selection and playerselection and score tally increase by 1 for each round won by wither party
-const playround = (playerselection,computerselection) => {
-    if (playerselection === computerselection) {
-        const p = document.createElement("p")
-        p.innerText= "you both tied, both chose the same thing" 
-        outcomediv.appendChild(p)
+// computer play that is randomly generated each time called
+function computerPlay() {
+    let rock = "Rock";
+    let paper = "Paper";
+    let scissors = "Scissors";
+    let getRandomValue = Math.random();
+    if (getRandomValue <= 0.33) {
+        return rock;
+    } else if (getRandomValue <= 0.66) {
+        return paper;
+    } else {
+        return scissors;
     }
-    else if (playerselection === "rock" && computerselection === "paper"){
-       compscore++
-        const p = document.createElement("p");
-        p.innerText= "player lost comp chose paper" 
-        outcomediv.appendChild(p) 
-    }
-    else if  (playerselection === "paper" && computerselection === "scissor"){
-          compscore++
-        const p = document.createElement("p")
-        p.innerText= "player lost comp chose scissor"
-        outcomediv.appendChild(p)
-    }
-        else if  (playerselection === "scissor" && computerselection === "rock"){
-             compscore++
-             const p = document.createElement("p")
-            p.innerText=  "player lost comp chose rock"
-            outcomediv.appendChild(p)
-        }
-            else if  (playerselection === "paper" && computerselection === "rock" ){
-                 playerscore++ 
-                 const p = document.createElement("p")
-                p.innerText= "player won comp chose rock"
-                outcomediv.appendChild(p)
-            }
-                else if  (playerselection === "rock" && computerselection === "scissor"){
-                    playerscore++ 
-                    const p = document.createElement("p")
-                    p.innerText= "player won comp chose scissor"
-                    outcomediv.appendChild(p)
-                }
-                    else if  (playerselection === "scissor" && computerselection === "paper"){
-                           playerscore++ 
-                           const p = document.createElement("p")
-                        p.innerText=  "player won comp chose paper"
-                        outcomediv.appendChild(p)
-                   }
-}
-// computer choice generated from random array of rock paper and scissor
-const computerplay = () => {
-const arr0fChoices = ["rock","paper","scissor"]
-const randomnum =  Math.floor(Math.random() * 3)
-const compchoice = (arr0fChoices[randomnum])
-return compchoice
 }
 
+// the game start
+function game() {
+    let playerWin = 0;
+    let computerWin = 0;
+    let gameWinner = "";
 
-//Each button is playing a round when the button is pressed
-rockbutton.addEventListener("click", () => {
-const computerselection = computerplay();
-const playerselection =  "rock";
-playround(playerselection,computerselection);
-console.log(playround(playerselection,computerselection));
-})
-
-paperbutton.addEventListener("click", () => {
-    const computerselection = computerplay();
-    const playerselection =  "paper";
-    playround(playerselection,computerselection);
-    console.log(playround(playerselection,computerselection));
+    //  Add event listeners for all three buttons/run round on click/track and end game
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            playerSelection = button.className;
+            const computerSelection = computerPlay();
+            battleWinText.textContent = (playRound(playerSelection, computerSelection));
+            playerWinText.textContent = "Player Win totals: " + playerWin;
+            computerWinText.textContent = "Computer Win totals: " + computerWin;
+            endGame();
+        })
     })
 
-    scissorbutton.addEventListener("click", () => {
-        const computerselection = computerplay();
-        const playerselection =  "scissor";
-        playround(computerselection,playerselection);
-        console.log(playround(playerselection,computerselection));
-        })
+        // play the round and determine winner
+        function playRound(playerSelection, computerSelection) {
+            let tie = "It's a Tie! You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let paperBeatRock = "You Win!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let scissorsBeatPaperLoss = "You lose!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let paperBeatRockLoss = "You lose!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let rockBeatScissors = "You Win!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let rockBeatScissorsLoss = "You lose!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
+            let scissorsBeatPaper = "You Win!  You selected " + playerSelection + " and the computer selected " + computerSelection + ".";
 
+            if (playerSelection === computerSelection) {
+                return tie;
+            } else if ((playerSelection === "Paper") && (computerSelection === "Rock")) {
+                playerWin++;
+                return paperBeatRock;
+            } else if ((playerSelection === "Paper") && (computerSelection === "Scissors")) {
+                computerWin++;
+                return scissorsBeatPaperLoss;
+            } else if ((playerSelection === "Rock") && (computerSelection === "Paper")) {
+                computerWin++;
+                return paperBeatRockLoss;
+            } else if ((playerSelection === "Rock") && (computerSelection === "Scissors")) {
+                playerWin++;
+                return rockBeatScissors;
+            } else if ((playerSelection === "Scissors") && (computerSelection === "Rock")) {
+                computerWin++;
+                return rockBeatScissorsLoss;
+            } else {
+                playerWin++;
+                return scissorsBeatPaper;
+            }
+        }
+    
+    //  create div DOM for all results
+    const container = document.querySelector("#container");
+    const resultsDiv = document.createElement("div");
+    resultsDiv.style.marginTop = "20px";
+    container.appendChild(resultsDiv);
 
+    //  create player win tracking DOM 
+    const playerWinText = document.createElement("p");
+    playerWinText.style.color = "blue";
+    playerWinText.textContent = "Player Win totals: " + playerWin;
+    resultsDiv.appendChild(playerWinText);
 
-        //all dom manipulation for dynamic results
+    //  create computer win tracking DOM
+    const computerWinText = document.createElement("p");
+    computerWinText.style.color = "blue";
+    computerWinText.textContent = "Computer Win totals: " + computerWin;
+    resultsDiv.appendChild(computerWinText);
+
+    //  create battle win text DOM
+    const battleWinText = document.createElement("p");
+    battleWinText.style.color = "black";
+    resultsDiv.appendChild(battleWinText);
+    
+    //  create game win text DOM
+    const gameWinText = document.createElement("p");
+    gameWinText.style.color = "orange";
+    gameWinText.textContent = gameWinner;
+    resultsDiv.appendChild(gameWinText);
+
+    //  determine who won to five points first
+    function endGame() {
+        if (playerWin == 5) {
+            gameWinner = "YOU WIN!";
+            gameWinText.textContent = gameWinner;
+            
+            //  disable game buttons
+            document.getElementById("1").disabled = true;
+            document.getElementById("2").disabled = true;
+            document.getElementById("3").disabled = true;
+            
+            //  create new DOM button to replay
+            const playAgainButton = document.createElement("button");
+            playAgainButton.textContent = "Play Again!";
+            resultsDiv.appendChild(playAgainButton);
+            
+            //  if clicked, reload page
+            playAgainButton.addEventListener('click', () => {
+                location.reload();
+                })
+        } else if (computerWin == 5) {
+            gameWinner = "COMPUTER WINS!";
+            gameWinText.textContent = gameWinner;
+            
+            //  disable game buttons
+            document.getElementById("1").disabled = true;
+            document.getElementById("2").disabled = true;
+            document.getElementById("3").disabled = true;
+            
+            //  create new DOM button to replay
+            const playAgainButton = document.createElement("button");
+            playAgainButton.textContent = "Play Again!";
+            resultsDiv.appendChild(playAgainButton);
+            
+            //  if clicked, reload page
+            playAgainButton.addEventListener('click', () => {
+                location.reload();
+                })
+        }   
+    }
+}
+
+//  function call to start the game
+game();
